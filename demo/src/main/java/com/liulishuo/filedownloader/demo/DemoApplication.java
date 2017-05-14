@@ -31,6 +31,7 @@ public class DemoApplication extends Application {
 
         // just for open the log in this demo project.
         FileDownloadLog.NEED_LOG = BuildConfig.DOWNLOAD_NEED_LOG;
+        FileDownloadLog.NEED_LOG = true;
 
         /**
          * just for cache Application's Context, and ':filedownloader' progress will NOT be launched

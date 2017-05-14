@@ -46,13 +46,13 @@ class FileDownloadServiceSharedTransmit implements
     public boolean start(String url, String path, boolean pathAsDirectory, int callbackProgressTimes,
                          int callbackProgressMinIntervalMillis,
                          int autoRetryTimes, boolean forceReDownload, FileDownloadHeader header,
-                         boolean isWifiRequired) {
+                         boolean isWifiRequired, int speedLimit, int speedLimitIncreaseFloat) {
         if (!isConnected()) {
             return DownloadServiceNotConnectedHelper.start(url, path, pathAsDirectory);
         }
 
         handler.start(url, path, pathAsDirectory, callbackProgressTimes, callbackProgressMinIntervalMillis,
-                autoRetryTimes, forceReDownload, header, isWifiRequired);
+                autoRetryTimes, forceReDownload, header, isWifiRequired, speedLimit, speedLimitIncreaseFloat);
         return true;
     }
 

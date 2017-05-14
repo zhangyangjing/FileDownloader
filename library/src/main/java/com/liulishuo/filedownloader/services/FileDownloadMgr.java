@@ -55,7 +55,8 @@ class FileDownloadMgr implements IThreadPoolMonitor {
                                    final int callbackProgressTimes,
                                    final int callbackProgressMinIntervalMillis,
                                    final int autoRetryTimes, final boolean forceReDownload,
-                                   final FileDownloadHeader header, final boolean isWifiRequired) {
+                                   final FileDownloadHeader header, final boolean isWifiRequired,
+                                   final int speedLimit, final int speedLimitIncreaseFloat) {
         if (FileDownloadLog.NEED_LOG) {
             FileDownloadLog.d(this, "request start the task with url(%s) path(%s) isDirectory(%B)",
                     url, path, pathAsDirectory);
@@ -124,6 +125,11 @@ class FileDownloadMgr implements IThreadPoolMonitor {
                 model.setPath(path, pathAsDirectory);
 
                 needUpdate2DB = true;
+            } else if (model.getSpeedLimit() != speedLimit || model.getSpeedLimitIncreaseFloat() != speedLimitIncreaseFloat) {
+                model.setSpeedLimit(speedLimit);
+                model.setSpeedLimitIncreaseFloat(speedLimitIncreaseFloat);
+
+                needUpdate2DB = true;
             } else {
                 needUpdate2DB = false;
             }
@@ -138,6 +144,8 @@ class FileDownloadMgr implements IThreadPoolMonitor {
             model.setSoFar(0);
             model.setTotal(0);
             model.setStatus(FileDownloadStatus.pending);
+            model.setSpeedLimit(speedLimit);
+            model.setSpeedLimitIncreaseFloat(speedLimitIncreaseFloat);
             needUpdate2DB = true;
         }
 

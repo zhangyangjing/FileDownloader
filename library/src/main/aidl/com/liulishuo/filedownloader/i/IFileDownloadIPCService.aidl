@@ -19,7 +19,7 @@ interface IFileDownloadIPCService {
     // will execute sync on the {@link FileDownloadEventPool#sendPool}
     void start(String url, String path, boolean pathAsDirectory, int callbackProgressTimes,
                 int callbackProgressMinIntervalMillis, int autoRetryTimes, boolean forceReDownload,
-                in FileDownloadHeader header, boolean isWifiRequired);
+                in FileDownloadHeader header, boolean isWifiRequired, int speedLimit, int speedLimitIncreaseFloat);
     boolean pause(int downloadId);
     void pauseAllTasks();
 

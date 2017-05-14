@@ -70,6 +70,8 @@ class DefaultDatabaseImpl implements FileDownloadDatabase {
                 model.setTotal(c.getLong(c.getColumnIndex(FileDownloadModel.TOTAL)));
                 model.setErrMsg(c.getString(c.getColumnIndex(FileDownloadModel.ERR_MSG)));
                 model.setETag(c.getString(c.getColumnIndex(FileDownloadModel.ETAG)));
+                model.setSpeedLimit(c.getInt(c.getColumnIndex(FileDownloadModel.SPEED_LIMIT)));
+                model.setSpeedLimitIncreaseFloat(c.getInt(c.getColumnIndex(FileDownloadModel.SPEED_LIMIT_INCREASE_FLOAT)));
                 model.setFilename(c.getString(c.getColumnIndex(FileDownloadModel.FILENAME)));
                 if (model.getStatus() == FileDownloadStatus.progress ||
                         model.getStatus() == FileDownloadStatus.connected ||

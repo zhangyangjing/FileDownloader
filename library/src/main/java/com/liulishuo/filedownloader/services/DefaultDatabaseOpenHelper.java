@@ -28,7 +28,7 @@ import com.liulishuo.filedownloader.model.FileDownloadModel;
  */
 class DefaultDatabaseOpenHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "filedownloader.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     public DefaultDatabaseOpenHelper(final Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -46,6 +46,8 @@ class DefaultDatabaseOpenHelper extends SQLiteOpenHelper {
                 FileDownloadModel.TOTAL + " INTEGER, " +// total
                 FileDownloadModel.ERR_MSG + " VARCHAR, " + // error message
                 FileDownloadModel.ETAG + " VARCHAR, " +// e tag
+                FileDownloadModel.SPEED_LIMIT + " INTEGER DEFAULT 0, " +// speed limit
+                FileDownloadModel.SPEED_LIMIT_INCREASE_FLOAT + " INTEGER DEFAULT 0, " +// speed limit increase float
                 FileDownloadModel.PATH_AS_DIRECTORY + " TINYINT(1) DEFAULT 0, " +// path as directory
                 FileDownloadModel.FILENAME + " VARCHAR" +// path as directory
                 ")");
@@ -64,6 +66,18 @@ class DefaultDatabaseOpenHelper extends SQLiteOpenHelper {
                     " ADD COLUMN " + FileDownloadModel.FILENAME +
                     " VARCHAR";
             db.execSQL(addFilenameColumn);
+        }
+
+        if (oldVersion < 3) {
+            String addSpeedLimitColumn = "ALTER TABLE " + DefaultDatabaseImpl.TABLE_NAME +
+                    " ADD COLUMN " + FileDownloadModel.SPEED_LIMIT +
+                    " INTEGER DEFAULT 0";
+            db.execSQL(addSpeedLimitColumn);
+
+            String addSpeedLimitIncreaseFloatColumn = "ALTER TABLE " + DefaultDatabaseImpl.TABLE_NAME +
+                    " ADD COLUMN " + FileDownloadModel.SPEED_LIMIT_INCREASE_FLOAT +
+                    " INTEGER DEFAULT 0";
+            db.execSQL(addSpeedLimitIncreaseFloatColumn);
         }
     }
 }

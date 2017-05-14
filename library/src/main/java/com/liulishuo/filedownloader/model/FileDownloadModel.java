@@ -65,6 +65,12 @@ public class FileDownloadModel {
     private String eTag;
     public final static String ETAG = "etag";
 
+    // speed limit
+    private int speedLimit;
+    private int speedLimitIncreaseFloat;
+    public final static String SPEED_LIMIT = "speed_limit";
+    public final static String SPEED_LIMIT_INCREASE_FLOAT = "speed_limit_increase_limit";
+
     public void setId(int id) {
         this.id = id;
     }
@@ -134,6 +140,22 @@ public class FileDownloadModel {
         this.eTag = eTag;
     }
 
+    public void setSpeedLimit(int limit) {
+        this.speedLimit = limit;
+    }
+
+    public int getSpeedLimit() {
+        return this.speedLimit;
+    }
+
+    public void setSpeedLimitIncreaseFloat(int increaseFloat) {
+        this.speedLimitIncreaseFloat = increaseFloat;
+    }
+
+    public int getSpeedLimitIncreaseFloat() {
+        return this.speedLimitIncreaseFloat;
+    }
+
     public String getErrMsg() {
         return errMsg;
     }
@@ -164,6 +186,8 @@ public class FileDownloadModel {
         cv.put(TOTAL, getTotal());
         cv.put(ERR_MSG, getErrMsg());
         cv.put(ETAG, getETag());
+        cv.put(SPEED_LIMIT, getSpeedLimit());
+        cv.put(SPEED_LIMIT_INCREASE_FLOAT, getSpeedLimitIncreaseFloat());
         cv.put(PATH_AS_DIRECTORY, isPathAsDirectory());
         if (isPathAsDirectory() && getFilename() != null) {
             cv.put(FILENAME, getFilename());

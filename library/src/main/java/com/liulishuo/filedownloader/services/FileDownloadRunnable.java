@@ -464,6 +464,11 @@ public class FileDownloadRunnable implements Runnable {
 //            long currentNanoTime;
 //            long latestWriteNanoTime = 0;
             // enter fetching loop(Step 2->6)
+
+            long localSoFar = 0;
+            long startTime = System.currentTimeMillis();
+            boolean speedLimit = 0 < model.getSpeedLimit();
+
             do {
 
                 // Step 2, read from input stream.
@@ -490,6 +495,7 @@ public class FileDownloadRunnable implements Runnable {
 
                 // Step 4, adapter sofar
                 soFar += byteCount;
+                localSoFar += byteCount;
 
                 // Step 5, callback on progressing
                 onProgress(soFar, total, outputStream);
@@ -501,6 +507,15 @@ public class FileDownloadRunnable implements Runnable {
                     return true;
                 }
 
+                if (speedLimit) {
+                    long duration = System.currentTimeMillis() - startTime;
+                    long durationLimited = (long) (localSoFar * 1000 / (model.getSpeedLimit() + Math.random() * model.getSpeedLimitIncreaseFloat()));
+                    long sleepTime = durationLimited - duration;
+                    if (FileDownloadLog.NEED_LOG)
+                        FileDownloadLog.v(this, "speed limit duration:%d durationLimited:%d sleepTime:%d", duration, durationLimited, sleepTime);
+                    if (sleepTime > 0)
+                        Thread.currentThread().sleep(sleepTime);
+                }
             } while (true);
 
             // Step 7, adapter chunked transfer encoding

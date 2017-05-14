@@ -52,6 +52,7 @@ public class DownloadTask implements BaseDownloadTask, BaseDownloadTask.IRunning
 
     private SparseArray<Object> mKeyedTags;
     private Object mTag;
+    private int mSpeedLimit = 0, mSpeedLimitIncreaseFloat = 0;
 
     private int mAutoRetryTimes = 0;
 
@@ -156,6 +157,13 @@ public class DownloadTask implements BaseDownloadTask, BaseDownloadTask.IRunning
             mKeyedTags = new SparseArray<>(2);
         }
         mKeyedTags.put(key, tag);
+        return this;
+    }
+
+    @Override
+    public BaseDownloadTask setSpeedLimit(int speedLimit, int speedLimitIncreaseFloat) {
+        mSpeedLimit = speedLimit;
+        mSpeedLimitIncreaseFloat = speedLimitIncreaseFloat;
         return this;
     }
 
@@ -484,6 +492,15 @@ public class DownloadTask implements BaseDownloadTask, BaseDownloadTask.IRunning
         return mKeyedTags == null ? null : mKeyedTags.get(key);
     }
 
+    @Override
+    public int getSpeedLimit() {
+        return mSpeedLimit;
+    }
+
+    @Override
+    public int getSpeedLimitIncreaseFloat() {
+        return mSpeedLimitIncreaseFloat;
+    }
 
     /**
      * @deprecated Use {@link #isResuming()} instead.

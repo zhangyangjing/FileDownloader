@@ -91,7 +91,8 @@ class FileDownloadServiceUIGuard extends
                          final int callbackProgressTimes,
                          final int callbackProgressMinIntervalMillis,
                          final int autoRetryTimes, final boolean forceReDownload,
-                         final FileDownloadHeader header, final boolean isWifiRequired) {
+                         final FileDownloadHeader header, final boolean isWifiRequired,
+                         final int speedLimit, final int speedLimitIncreaseFloat) {
         if (!isConnected()) {
             return DownloadServiceNotConnectedHelper.start(url, path, pathAsDirectory);
         }
@@ -99,7 +100,7 @@ class FileDownloadServiceUIGuard extends
         try {
             getService().start(url, path, pathAsDirectory, callbackProgressTimes,
                     callbackProgressMinIntervalMillis, autoRetryTimes, forceReDownload, header,
-                    isWifiRequired);
+                    isWifiRequired, speedLimit, speedLimitIncreaseFloat);
         } catch (RemoteException e) {
             e.printStackTrace();
 

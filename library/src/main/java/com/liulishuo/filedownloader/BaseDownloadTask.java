@@ -124,6 +124,7 @@ public interface BaseDownloadTask {
      */
     BaseDownloadTask setTag(final int key, final Object tag);
 
+    BaseDownloadTask setSpeedLimit(final int speedLimit, final int speedLimitIncreaseFloat);
 
     /**
      * Force re-downloading the file regardless the target file is exist.
@@ -495,6 +496,8 @@ public interface BaseDownloadTask {
      */
     Object getTag(int key);
 
+    int getSpeedLimit();
+    int getSpeedLimitIncreaseFloat();
 
     /**
      * @deprecated Use {@link #isResuming()} instead.

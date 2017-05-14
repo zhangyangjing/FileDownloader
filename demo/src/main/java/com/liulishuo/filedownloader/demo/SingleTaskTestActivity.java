@@ -62,6 +62,7 @@ public class SingleTaskTestActivity extends AppCompatActivity {
         deleteBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                speed = 0;
                 new File(llsApkFilePath).delete();
                 new File(FileDownloadUtils.getTempPath(llsApkFilePath)).delete();
             }
@@ -149,6 +150,7 @@ public class SingleTaskTestActivity extends AppCompatActivity {
         FileDownloader.getImpl().pause(downloadId2);
     }
 
+    private static int speed = 0;
     private BaseDownloadTask createDownloadTask(final int position) {
         final ViewHolder tag;
         final String url;
@@ -182,11 +184,14 @@ public class SingleTaskTestActivity extends AppCompatActivity {
 
         }
 
+        speed += 1024 * 100;
+
         return FileDownloader.getImpl().create(url)
                 .setPath(path, isDir)
                 .setCallbackProgressTimes(300)
                 .setMinIntervalUpdateSpeed(400)
                 .setTag(tag)
+                .setSpeedLimit(speed, 1024 * 100)
                 .setListener(new FileDownloadSampleListener() {
 
                     @Override

@@ -28,7 +28,8 @@ public interface IFileDownloadServiceProxy {
                   final int callbackProgressTimes,
                   final int callbackProgressMinIntervalMillis,
                   final int autoRetryTimes, boolean forceReDownload,
-                  final FileDownloadHeader header, boolean isWifiRequired);
+                  final FileDownloadHeader header, boolean isWifiRequired,
+                  final int speedLimit, final int speedLimitIncreaseFloat);
 
     boolean pause(final int id);
 

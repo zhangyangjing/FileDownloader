@@ -601,7 +601,9 @@ public class DownloadTaskHunter implements ITaskHunter, ITaskHunter.IStarter, IT
                             origin.getAutoRetryTimes(),
                             origin.isForceReDownload(),
                             mTask.getHeader(),
-                            origin.isWifiRequired());
+                            origin.isWifiRequired(),
+                            origin.getSpeedLimit(),
+                            origin.getSpeedLimitIncreaseFloat());
 
             if (mStatus == FileDownloadStatus.paused) {
                 FileDownloadLog.w(this, "High concurrent cause, this task %d will be paused," +
