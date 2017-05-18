@@ -71,7 +71,7 @@ public class FileDownloadRunnable implements Runnable {
 
 
     private static final int CALLBACK_SAFE_MIN_INTERVAL_BYTES = 1;//byte
-    private static final int CALLBACK_SAFE_MIN_INTERVAL_MILLIS = 5;//ms
+    private static final int CALLBACK_SAFE_MIN_INTERVAL_MILLIS = 150;//ms
 
     private static final int BUFFER_SIZE = 1024 * 4;
 
@@ -458,7 +458,8 @@ public class FileDownloadRunnable implements Runnable {
             inputStream = connection.getInputStream();
             byte[] buff = new byte[BUFFER_SIZE];
 
-            callbackMinIntervalBytes = calculateCallbackMinIntervalBytes(total, maxProgressCount);
+            callbackMinIntervalBytes = BUFFER_SIZE * 4;
+//            callbackMinIntervalBytes = calculateCallbackMinIntervalBytes(total, maxProgressCount);
 
 //            long startWriteNanoTime = 0;
 //            long currentNanoTime;
