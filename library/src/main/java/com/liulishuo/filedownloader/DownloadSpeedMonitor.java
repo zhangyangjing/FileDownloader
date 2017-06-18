@@ -18,6 +18,8 @@ package com.liulishuo.filedownloader;
 
 import android.os.SystemClock;
 
+import java.security.InvalidParameterException;
+
 /**
  * The downloading speed monitor.
  */
@@ -36,6 +38,8 @@ public class DownloadSpeedMonitor implements IDownloadSpeed.Monitor, IDownloadSp
 
     // The min interval millisecond for updating the download mSpeed.
     private int mMinIntervalUpdateSpeed = 5;
+
+    private MeanArray mMeanArray = new MeanArray(10);
 
     @Override
     public void start() {
@@ -74,8 +78,9 @@ public class DownloadSpeedMonitor implements IDownloadSpeed.Monitor, IDownloadSp
 
             long interval = SystemClock.uptimeMillis() - mLastRefreshTime;
             if (interval >= mMinIntervalUpdateSpeed || (mSpeed == 0 && interval > 0)) {
-                mSpeed = (int) ((sofarBytes - mLastRefreshSofarBytes) / interval);
-                mSpeed = Math.max(0, mSpeed);
+                int speed = (int) ((sofarBytes - mLastRefreshSofarBytes) / interval);
+                mMeanArray.addNum(speed);
+                mSpeed = Math.max(0, mMeanArray.getMean());
                 isUpdateData = true;
                 break;
             }
@@ -102,5 +107,33 @@ public class DownloadSpeedMonitor implements IDownloadSpeed.Monitor, IDownloadSp
     @Override
     public void setMinIntervalUpdateSpeed(int minIntervalUpdateSpeed) {
         this.mMinIntervalUpdateSpeed = minIntervalUpdateSpeed;
+    }
+
+    private static class MeanArray {
+        private boolean mLooped;
+        private int mIndex;
+        private int[] mData;
+
+        public MeanArray(int size) {
+            if (size < 1)
+                throw new InvalidParameterException();
+            mData = new int[size];
+        }
+
+        public void addNum(int num) {
+            if (mData.length == mIndex) {
+                mIndex = 0;
+                mLooped = true;
+            }
+
+            mData[mIndex++] = num;
+        }
+
+        public int getMean() {
+            int sum = 0, length = mLooped ? mData.length : Math.min(mData.length, mIndex + 1);
+            for (int i = 0; i < length; i++)
+                sum += mData[i];
+            return sum / length;
+        }
     }
 }
